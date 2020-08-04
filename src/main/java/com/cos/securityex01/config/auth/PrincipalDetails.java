@@ -13,9 +13,9 @@ import com.cos.securityex01.model.User;
 import lombok.Data;
 
 // Authentication 객체에 저장할 수 있는 유일한 타입
-@Data
 public class PrincipalDetails implements UserDetails, OAuth2User{
 
+	private static final long serialVersionUID = 1L;
 	private User user;
 	private Map<String, Object> attributes;
 
@@ -30,6 +30,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User{
 		this.attributes = attributes;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
 	@Override
 	public String getPassword() {
 		return user.getPassword();
