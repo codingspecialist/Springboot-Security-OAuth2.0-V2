@@ -1,10 +1,9 @@
 package com.cos.securityex01.config.oauth;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.cos.securityex01.config.auth.PrincipalDetails;
 import com.cos.securityex01.config.oauth.provider.FaceBookUserInfo;
 import com.cos.securityex01.config.oauth.provider.GoogleUserInfo;
+import com.cos.securityex01.config.oauth.provider.NaverUserInfo;
 import com.cos.securityex01.config.oauth.provider.OAuth2UserInfo;
 import com.cos.securityex01.model.User;
 import com.cos.securityex01.repository.UserRepository;
@@ -33,7 +33,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		System.out.println("userRequest clientRegistration : " + userRequest.getClientRegistration());
 		// token을 통해 응답받은 회원정보
 		System.out.println("oAuth2User : " + oAuth2User);
-
+	
 		return processOAuth2User(userRequest, oAuth2User);
 	}
 
@@ -47,6 +47,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		} else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
 			System.out.println("페이스북 로그인 요청~~");
 			oAuth2UserInfo = new FaceBookUserInfo(oAuth2User.getAttributes());
+		} else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+			System.out.println("네이버 로그인 요청~~");
+			oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
 		} else {
 			System.out.println("우리는 구글과 페이스북만 지원해요 ㅎㅎ");
 		}
