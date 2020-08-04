@@ -20,8 +20,10 @@ public class PrincipalDetailsService implements UserDetailsService{
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
 			return null;
+		}else {
+			return new PrincipalDetails(user);
 		}
-		return new PrincipalDetails(user);
+		
 	}
 
 }
